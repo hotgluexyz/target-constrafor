@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "target-constrafor"
+version = "0.1.0"
+description = "`target-constrafor` is a Singer target for Constrafor, built with the Meltano SDK for Singer Targets."
+authors = ["hotglue"]
+keywords = [
+    "ELT",
+    "Constrafor",
+]
+license = "Apache 2.0"
+
+[tool.poetry.dependencies]
+python = "<3.11,>=3.7.1"
+backoff = "1.8.0"
+requests = "^2.25.1"
+singer-sdk = "^0.9.0"
+target-hotglue = "^0.1.11"
+
+[build-system]
+requires = ["poetry-core==1.0.8"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+target-constrafor = 'target_constrafor.target:TargetConstrafor.cli'
