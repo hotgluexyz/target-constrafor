@@ -1,4 +1,4 @@
-from target_hotglue.sinks import HotglueSink
+from hotglue_singer_sdk.target_sdk.client import HotglueSink
 
 from target_constrafor.auth import ConstraforAuthenticator
 

@@ -1,9 +1,9 @@
 """Constrafor target class."""
 
 from typing import Type
-from singer_sdk import typing as th
-from singer_sdk.sinks import Sink
-from target_hotglue.target import TargetHotglue
+from hotglue_singer_sdk import typing as th
+from hotglue_singer_sdk.sinks import Sink
+from hotglue_singer_sdk.target_sdk.target import TargetHotglue
 
 from target_constrafor.sinks import FallbackSink
 

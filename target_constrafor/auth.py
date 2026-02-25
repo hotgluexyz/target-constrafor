@@ -1,4 +1,4 @@
-from target_hotglue.auth import Authenticator
+from hotglue_singer_sdk.target_sdk.auth import Authenticator
 
 
 class ConstraforAuthenticator(Authenticator):
