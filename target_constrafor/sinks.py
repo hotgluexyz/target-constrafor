@@ -8,13 +8,6 @@ class FallbackSink(HotglueSink):
         super().__init__(*args, **kwargs)
         self.authenticator = ConstraforAuthenticator(self._target, self._state)
     
-
-    external_id_mapping = {
-        "contract": "number",
-        "project": "number",
-        "subcontractor": "external_id"
-    }
-
     @property
     def base_url(self) -> str:
         return "https://api.constrafor.com/public_api/v1"
@@ -29,11 +22,7 @@ class FallbackSink(HotglueSink):
         # project and contract doesn't support update by PATCH id
         # it does so by using POST and the id cannot be in the payload
         if self.name in ["project", "contract"]:
-            record.pop("id", None)
-
-        if self.name in self.external_id_mapping:
-            record["externalId"] = record.get(self.external_id_mapping[self.name])
-        
+            record.pop("id", None)        
         return record
 
 
