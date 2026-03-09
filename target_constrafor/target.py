@@ -14,7 +14,7 @@ class TargetConstrafor(TargetHotglue):
     name = "target-constrafor"
 
     config_jsonschema = th.PropertiesList(
-        th.Property("access_token", th.StringType, required=True),
+        th.Property("api_key", th.StringType, required=True),
     ).to_dict()
 
     SINK_TYPES = [FallbackSink]
