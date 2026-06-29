@@ -19,9 +19,9 @@ class FallbackSink(HotglueSink):
 
 
     def preprocess_record(self, record: dict, context: dict) -> dict:
-        # project and contract doesn't support update by PATCH id
+        # project, contract and insurance doesn't support update by PATCH id
         # it does so by using POST and the id cannot be in the payload
-        if self.name in ["project", "contract"]:
+        if self.name in ["project", "contract", "insurance-request"]:
             record.pop("id", None)        
         return record
 
@@ -32,7 +32,10 @@ class FallbackSink(HotglueSink):
 
         endpoint = f"/{self.name}"
         method = "POST"
-        payload = [record]
+        if self.name in ["insurance-request"]:
+            payload = record
+        else:   
+            payload = [record]
 
         if is_update:
             endpoint = f"/{self.name}/{record_id}"
