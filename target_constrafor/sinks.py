@@ -3,11 +3,13 @@ from hotglue_singer_sdk.target_sdk.client import HotglueSink
 from target_constrafor.auth import ConstraforAuthenticator
 
 
-class FallbackSink(HotglueSink):
+class ConstraforSink(HotglueSink):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.authenticator = ConstraforAuthenticator(self._target, self._state)
-    
+
+
+class FallbackSink(ConstraforSink):
     @property
     def base_url(self) -> str:
         return "https://api.constrafor.com/public_api/v1"
@@ -47,4 +49,22 @@ class FallbackSink(HotglueSink):
             state_updates = {"is_updated": True}
 
         return id, response.ok, state_updates
-    
+
+
+class InvoicesCommitmentsSink(ConstraforSink):
+    name = "invoices_commitments"
+
+    @property
+    def base_url(self) -> str:
+        return "https://api.constrafor.com/public_api"
+
+    def preprocess_record(self, record: dict, context: dict) -> dict:
+        return record
+
+    def upsert_record(self, record: dict, context: dict):
+        response = self.request_api(
+            "PUT",
+            "/invoices/commitments",
+            request_data=[record],
+        )
+        return f"{record.get('number')}", response.ok, {}
