@@ -2,18 +2,24 @@ from hotglue_singer_sdk.target_sdk.client import HotglueSink
 
 from target_constrafor.auth import ConstraforAuthenticator
 
+PROD_URL = "https://api.constrafor.com"
+SANDBOX_URL = "https://api-sandbox.constrafor.com"
+
 
 class ConstraforSink(HotglueSink):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.authenticator = ConstraforAuthenticator(self._target, self._state)
 
+    @property
+    def api_root(self) -> str:
+        return SANDBOX_URL if self.config.get("is_sandbox") else PROD_URL
+
 
 class FallbackSink(ConstraforSink):
     @property
     def base_url(self) -> str:
-        return "https://api.constrafor.com/public_api/v1"
-    
+        return f"{self.api_root}/public_api/v1"
 
     @property
     def name(self) -> str:
@@ -59,7 +65,7 @@ class InvoicesCommitmentsSink(ConstraforSink):
 
     @property
     def base_url(self) -> str:
-        return "https://api.constrafor.com/public_api"
+        return f"{self.api_root}/public_api"
 
     def preprocess_record(self, record: dict, context: dict) -> dict:
         return record
