@@ -13,6 +13,7 @@ class TargetConstrafor(TargetHotglue):
 
     config_jsonschema = th.PropertiesList(
         th.Property("api_key", th.StringType, required=True),
+        th.Property("base_url", th.StringType, description="Constrafor API host (defaults to https://api.constrafor.com)"),
     ).to_dict()
 
     SINK_TYPES = [InvoicesCommitmentsSink]
