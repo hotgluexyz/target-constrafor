@@ -6,6 +6,16 @@ PROD_URL = "https://api.constrafor.com"
 SANDBOX_URL = "https://api-sandbox.constrafor.com"
 
 
+def config_is_sandbox(config) -> bool:
+    """Coerce is_sandbox from bool or hotglue metadata string substitution."""
+    value = config.get("is_sandbox", False)
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() == "true"
+    return False
+
+
 class ConstraforSink(HotglueSink):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -13,7 +23,7 @@ class ConstraforSink(HotglueSink):
 
     @property
     def api_root(self) -> str:
-        return SANDBOX_URL if self.config.get("is_sandbox") else PROD_URL
+        return SANDBOX_URL if config_is_sandbox(self.config) else PROD_URL
 
 
 class FallbackSink(ConstraforSink):

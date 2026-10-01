@@ -13,7 +13,7 @@ class TargetConstrafor(TargetHotglue):
 
     config_jsonschema = th.PropertiesList(
         th.Property("api_key", th.StringType, required=True),
-        th.Property("is_sandbox", th.BooleanType, description="Use Constrafor sandbox API",default=False),
+        th.Property("is_sandbox", th.CustomType({"type": ["boolean", "string"]}), description="Use Constrafor sandbox API",default=False),
     ).to_dict()
 
     SINK_TYPES = [InvoicesCommitmentsSink]
