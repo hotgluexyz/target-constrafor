@@ -6,7 +6,7 @@ PROD_URL = "https://api.constrafor.com"
 SANDBOX_URL = "https://api-sandbox.constrafor.com"
 
 
-def config_is_sandbox(config: dict) -> bool:
+def config_is_sandbox(config) -> bool:
     """Coerce is_sandbox from bool or hotglue metadata string substitution."""
     value = config.get("is_sandbox", False)
     if isinstance(value, bool):
